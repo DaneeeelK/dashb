@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
 <head>
     <title>DAN_E_E_E_ELK</title>
@@ -10,5 +10,95 @@
 <body>
     <!-- Вставь свой код из Power BI ниже -->
     <iframe title="Arb_bot_dashboard" src="https://app.powerbi.com/view?r=eyJrIjoiODNmNmZkY2MtMzY5Mi00MGFmLTg4MDktODM0MmE3ZDg0MGI0IiwidCI6IjZhM2Q2MmExLWY5YjYtNGRiNC05ZWMxLTQwMDM3MmQ4NjhjMCIsImMiOjl9" allowFullScreen="true"></iframe>
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DAN_E_E_E_ELK Dashboard</title>
+    <style>
+        /* Общие настройки страницы */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background-color: #000; /* Черный фон */
+            color: #fff;
+            font-family: sans-serif;
+            overflow: hidden; /* Чтобы не было общей прокрутки страницы */
+        }
+
+        /* Настройка сетки (Grid) */
+        .dashboard-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr; /* Левая колонка в 2 раза шире правой */
+            grid-template-rows: 1fr 1fr;    /* Две равные строки по высоте */
+            gap: 10px;                      /* Отступы между ячейками */
+            height: 100vh;                  /* Высота на весь экран */
+            padding: 10px;                  /* Отступ от краев экрана */
+            box-sizing: border-box;
+        }
+
+        /* Левая большая ячейка */
+        .main-chart {
+            grid-row: 1 / span 2;           /* Занимает 1 и 2 строки сразу */
+            background-color: #1a1a1a;      /* Темно-серый фон для красоты до загрузки */
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        /* Правые малые ячейки */
+        .side-card {
+            background-color: #1a1a1a;
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Настройки для всех iframe */
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Заголовок-заглушка для пустых карточек */
+        .placeholder-text {
+            color: #444;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-container">
+        
+        <!-- Левый большой график -->
+        <div class="main-chart">
+            <iframe title="Arb_bot_dashboard" src="https://app.powerbi.com/view?r=eyJrIjoiODNmNmZkY2MtMzY5Mi00MGFmLTg4MDktODM0MmE3ZDg0MGI0IiwidCI6IjZhM2Q2MmExLWY5YjYtNGRiNC05ZWMxLTQwMDM3MmQ4NjhjMCIsImMiOjl9" allowFullScreen="true"></iframe>
+        </div>
+
+        <!-- Правая верхняя карточка -->
+        <div class="side-card">
+            <!-- Сюда вставь вторую ссылку Power BI, когда она будет -->
+            <div class="placeholder-text">Здесь будет вторая карточка</div>
+            <!-- Пример: <iframe src="ССЫЛКА_2"></iframe> -->
+        </div>
+
+        <!-- Правая нижняя карточка -->
+        <div class="side-card">
+            <!-- Сюда вставь третью ссылку Power BI или просто текст -->
+            <div class="placeholder-text">Здесь будет третья карточка</div>
+            <!-- Пример: <iframe src="ССЫЛКА_3"></iframe> -->
+        </div>
+
+    </div>
+
 </body>
 </html>
