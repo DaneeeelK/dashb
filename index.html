@@ -101,7 +101,7 @@
         async function getStatus() {
             try {
                 // Добавляем timestamp к URL, чтобы браузер не кэшировал старый JSON
-                const url = 'https://storage.googleapis.com/arb_bot_data/status.json?nocache=' + new Date().getTime();
+                const url = 'https://storage.googleapis.com/perps_bots_data/status.json?nocache=' + new Date().getTime();
                 const response = await fetch(url);
                 const data = await response.json();
                 
