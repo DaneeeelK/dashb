@@ -6,18 +6,18 @@
     <title>DAN_E_E_E_ELK Dashboard</title>
     <link rel="icon" type="image/webp" href="/sticker.webp">
     <style>
-        /* Общие настройки страницы */
+        /* Base page layout */
         body, html {
             margin: 0;
             padding: 0;
             height: 100%;
             background-color: #000;
             color: #fff;
-            font-family: sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             overflow: hidden; 
         }
 
-        /* Тонкая полоска статуса (28px) */
+        /* Top status bar (28px height) */
         #status-bar {
             height: 28px;
             background-color: #111;
@@ -34,29 +34,30 @@
 
         .status-item { margin-right: 15px; }
         .status-val { font-weight: bold; }
-        .online { color: #00ff00; }  /* Ярко-зеленый */
-        .offline { color: #ff4444; } /* Ярко-красный */
+        .online { color: #00ff00; }
+        .offline { color: #ff4444; }
 
-        /* Настройка сетки (Grid) */
+        /* Grid layout: Top 3/5 height, Bottom 2/5 height split in two */
         .dashboard-container {
             display: grid;
-            grid-template-columns: 2fr 1fr;
-            grid-template-rows: 1fr 1fr;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 3fr 2fr;
             gap: 10px;
-            /* Вычитаем высоту статус-бара из общей высоты экрана */
             height: calc(100vh - 28px); 
             padding: 10px;
             box-sizing: border-box;
         }
 
-        .main-chart {
-            grid-row: 1 / span 2;
+        /* Top full-width chart container */
+        .top-chart {
+            grid-column: 1 / span 2;
             background-color: #1a1a1a;
             border-radius: 8px;
             overflow: hidden;
         }
 
-        .side-card {
+        /* Bottom cards */
+        .bottom-card {
             background-color: #1a1a1a;
             border-radius: 8px;
             overflow: hidden;
@@ -72,7 +73,7 @@
 </head>
 <body>
 
-    <!-- Статус-бар -->
+    <!-- System Status Bar -->
     <div id="status-bar">
         <div id="bot-services">
             Loading system status...
@@ -82,18 +83,22 @@
         </div>
     </div>
 
+    <!-- Dashboards Container -->
     <div class="dashboard-container">
         
-        <div class="main-chart">
-            <iframe title="Arb_bot_dashboard" src="https://app.powerbi.com/view?r=eyJrIjoiMjY5OTAyZmUtZTRjMC00YTIxLWI2ZWEtMmVmZmY2M2IzZjk1IiwidCI6IjZhM2Q2MmExLWY5YjYtNGRiNC05ZWMxLTQwMDM3MmQ4NjhjMCIsImMiOjl9" allowFullScreen="true"></iframe>
+        <!-- Top: Arb Spreads and Orders Graph (Full Width, 3/5 Height) -->
+        <div class="top-chart">
+            <iframe title="current_token_trade_graph" src="https://app.powerbi.com/view?r=eyJrIjoiMjY5OTAyZmUtZTRjMC00YTIxLWI2ZWEtMmVmZmY2M2IzZjk1IiwidCI6IjZhM2Q2MmExLWY5YjYtNGRiNC05ZWMxLTQwMDM3MmQ4NjhjMCIsImMiOjl9" allowFullScreen="true"></iframe>
         </div>
 
-        <div class="side-card">
-            <iframe title="grd2" src="https://app.powerbi.com/view?r=eyJrIjoiNWE4YWM5YzAtNTY2OS00ODM1LTgzZjctYzJiYTc4NDA0MTVkIiwidCI6IjZhM2Q2MmExLWY5YjYtNGRiNC05ZWMxLTQwMDM3MmQ4NjhjMCIsImMiOjl9" allowFullScreen="true"></iframe>
+        <!-- Bottom Left: Selected Token Strategy Stats -->
+        <div class="bottom-card">
+            <iframe title="current_choosen_tokens_table" src="https://app.powerbi.com/view?r=eyJrIjoiZjJiZTcwYTQtMTE1Mi00MzMxLWFhNDUtYzg5ODliODk1NzUxIiwidCI6IjZhM2Q2MmExLWY5YjYtNGRiNC05ZWMxLTQwMDM3MmQ4NjhjMCIsImMiOjl9" allowFullScreen="true"></iframe>
         </div>
 
-        <div class="side-card">
-            <iframe title="grd" src="https://app.powerbi.com/view?r=eyJrIjoiZjI4YzcyYjItNGVmZS00YjY3LTkyMGQtZWQwOWVkMjI2MDNjIiwidCI6IjZhM2Q2MmExLWY5YjYtNGRiNC05ZWMxLTQwMDM3MmQ4NjhjMCIsImMiOjl9" allowFullScreen="true"></iframe>
+        <!-- Bottom Right: Live Trade Metrics -->
+        <div class="bottom-card">
+            <iframe title="table with current trade data" src="https://app.powerbi.com/view?r=eyJrIjoiZjI4YzcyYjItNGVmZS00YjY3LTkyMGQtZWQwOWVkMjI2MDNjIiwidCI6IjZhM2Q2MmExLWY5YjYtNGRiNC05ZWMxLTQwMDM3MmQ4NjhjMCIsImMiOjl9" allowFullScreen="true"></iframe>
         </div>
 
     </div>
@@ -101,13 +106,11 @@
     <script>
         async function getStatus() {
             try {
-                // Добавляем timestamp к URL, чтобы браузер не кэшировал старый JSON
                 const url = 'https://storage.googleapis.com/perps_bots_data/status.json?nocache=' + new Date().getTime();
                 const response = await fetch(url);
                 const data = await response.json();
                 
                 let html = "";
-                // Перебираем сервисы из JSON
                 for (const [name, status] of Object.entries(data.services)) {
                     const statusClass = (status === "ONLINE") ? "online" : "offline";
                     html += `<span class="status-item">${name.toUpperCase()}: <span class="status-val ${statusClass}">${status}</span></span>`;
@@ -122,9 +125,8 @@
             }
         }
 
-        // Обновляем статус каждые 30 секунд
+        // Poll system status every 60 seconds
         setInterval(getStatus, 60000);
-        // Запускаем сразу при загрузке
         getStatus();
     </script>
 
